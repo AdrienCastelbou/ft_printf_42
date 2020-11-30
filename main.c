@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/11/30 12:12:48 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/11/30 14:33:26 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,32 @@ char	*ft_convert_hex(long int nb, char *base)
 	return (str);
 }
 
+char	*ft_get_params_str(char c, va_list ap)
+{
+	char *str;
+
+	if (c == 'c')
+	{
+		c = (va_arg(ap,int));
+		str = strndup(&c, 1);
+	}
+	else if (c == 'p')
+		str = ft_convert_hex(va_arg(ap, unsigned long long), "0123456789abcdef");
+	else if (c == 's')
+		str = strdup(va_arg(ap,char *));
+	else if (c == 'd' || c == 'i')
+		str = ft_itoa(va_arg(ap, int));
+	else if (c == 'u')
+		str = ft_utoa(va_arg(ap, unsigned int));
+	else if (c == 'x')
+		str = ft_convert_hex(va_arg(ap, unsigned int), "0123456789abcdef");
+	else if (c == 'X')
+		str = ft_convert_hex(va_arg(ap, unsigned int), "0123456789ABCDEF");
+	else if (c == '%')
+		str = strdup("%");
+	return (str);
+}
+
 int		ft_conversion(char *s, va_list ap, t_list **to_print)
 {
 	int		i;
@@ -105,11 +131,15 @@ int		ft_conversion(char *s, va_list ap, t_list **to_print)
 		;
 	if (ft_strchr("cspdiuxX%", s[i]))
 	{
+		str = ft_get_params_str(s[i], ap);
+		/*
 		if (s[i] == 'c')
 		{
 			c = (va_arg(ap,int));
 			str = strndup(&c, 1);
 		}
+		else if (s[i] == 'p')
+			str = ft_convert_hex(va_arg(ap, unsigned long long), "0123456789abcdef");
 		else if (s[i] == 's')
 			str = strdup(va_arg(ap,char *));
 		else if (s[i] == 'd' || s[i] == 'i')
@@ -122,6 +152,7 @@ int		ft_conversion(char *s, va_list ap, t_list **to_print)
 			str = ft_convert_hex(va_arg(ap, unsigned int), "0123456789ABCDEF");
 		else if (s[i] == '%')
 			str = strdup("%");
+		*/
 		if (str == NULL)
 			return (-1);
 		new = ft_lstnew(str);
@@ -185,7 +216,6 @@ int		ft_printf(const char *s, ...)
 int main(int ac, char **av)
 {
 	int a = 200;
-
-	ft_printf("a%db", 1);
-
+	int *p = &a;
+	printf("Je m'appelles %s, mais on m'appelles %c, j'ai %d ans et mesure %x cm'", "Adrien", 'a', 20, 178);
 }
