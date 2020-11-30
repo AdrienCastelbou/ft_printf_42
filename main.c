@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/11/30 14:33:26 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/11/30 17:44:29 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,45 +118,74 @@ char	*ft_get_params_str(char c, va_list ap)
 	return (str);
 }
 
-int		ft_conversion(char *s, va_list ap, t_list **to_print)
+char	*ft_strcpy(char *dest, char *src)
+{
+	size_t i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_transform_str(char	*src, char c, int width)
+{
+	char	*str;
+	int		start;
+
+	if (!(str = (char *)malloc(sizeof(char) * (width + 1))))
+		return (NULL);
+	str[width] = '\0';
+	if (c == '0')
+		ft_memset(str, '0', width);
+	else
+		ft_memset(str, ' ', width);
+	start = width - ft_strlen(src);
+	if (c == '-')
+		ft_memcpy(str, src, ft_strlen(src));
+	else
+		ft_strcpy(str + start, src);
+	free(src);
+	return (str);
+}
+
+int		ft_conversion(char *s, va_list ap, t_list *to_print)
 {
 	int		i;
+	int		width;
+	int		w_indicator;
 	char	*str;
-	char c;
 	t_list	*new;
 
 	str = NULL;
 	i = -1;
+	width = -1;
+	w_indicator = 0;
 	while (s[++i] && ft_strchr("cspdiuxX%", s[i]) == 0)
-		;
+	{
+		if (s[i] >= '1' && s[i] <= '9' && width == -1)
+		{
+			width = ft_atoi(s + i);
+			i += get_size(width) - 1;
+		}
+		else if (s[i] == '*')
+			width = va_arg(ap, int);
+		else if ((s[i] == '0' && s[w_indicator] != '-') || s[i] == '-')
+			w_indicator = i;
+	}
 	if (ft_strchr("cspdiuxX%", s[i]))
 	{
 		str = ft_get_params_str(s[i], ap);
-		/*
-		if (s[i] == 'c')
-		{
-			c = (va_arg(ap,int));
-			str = strndup(&c, 1);
-		}
-		else if (s[i] == 'p')
-			str = ft_convert_hex(va_arg(ap, unsigned long long), "0123456789abcdef");
-		else if (s[i] == 's')
-			str = strdup(va_arg(ap,char *));
-		else if (s[i] == 'd' || s[i] == 'i')
-			str = ft_itoa(va_arg(ap, int));
-		else if (s[i] == 'u')
-			str = ft_utoa(va_arg(ap, unsigned int));
-		else if (s[i] == 'x')
-			str = ft_convert_hex(va_arg(ap, unsigned int), "0123456789abcdef");
-		else if (s[i] == 'X')
-			str = ft_convert_hex(va_arg(ap, unsigned int), "0123456789ABCDEF");
-		else if (s[i] == '%')
-			str = strdup("%");
-		*/
+		if (width > ft_strlen(str))
+			str = ft_transform_str(str, s[w_indicator], width);
 		if (str == NULL)
 			return (-1);
 		new = ft_lstnew(str);
-		ft_lstadd_back(to_print, new);
+		ft_lstadd_back(&to_print, new);
 	}
 	return (i);
 }
@@ -179,7 +208,7 @@ int		ft_print_all(t_list *to_print)
 int		ft_printf(const char *s, ...)
 {
 	va_list		ap;
-	t_list	*to_print;
+	t_list	*to_print = NULL;
 	char		*tmp;
 	int			i;
 	int j;
@@ -193,13 +222,13 @@ int		ft_printf(const char *s, ...)
 			tmp = strndup(s + i, j - i);
 			ft_lstadd_back(&to_print, ft_lstnew((void *)tmp));
 			i = j;
-			if ((j = ft_conversion((char *)&s[i += 1], ap, &to_print)) == -1)
+			if ((j = ft_conversion((char *)&s[i += 1], ap, to_print)) == -1)
 			{
 				ft_lstclear(&to_print, free);
 				return (-1);
 			}
-			i+= 1;
-			j += i;
+			i += j + 1;
+			j = i - 1;
 		}
 	if (j > i)
 	{
@@ -217,5 +246,6 @@ int main(int ac, char **av)
 {
 	int a = 200;
 	int *p = &a;
-	printf("Je m'appelles %s, mais on m'appelles %c, j'ai %d ans et mesure %x cm'", "Adrien", 'a', 20, 178);
+	//ft_printf("\n", p);
+	printf("|%4.3d|", 1);
 }
