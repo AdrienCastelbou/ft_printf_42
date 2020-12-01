@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/01 10:02:35 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/01 10:51:02 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ char	*ft_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-char	*ft_transform_str(char	*src, char c, int width)
+char	*ft_transform_str(char *src, char c, int width)
 {
 	char	*str;
 	int		start;
@@ -158,19 +158,48 @@ char	*ft_transform_str(char	*src, char c, int width)
 	return (str);
 }
 
+char	*ft_precise_str(char *src, char c, int precision)
+{
+	char	*str;
+
+	if ((c == 's' && precision < ft_strlen(src)) ||
+			(ft_strchr("diuxX", c) && precision > ft_strlen(src)))
+	{
+		if (!(str = (char *)malloc(sizeof(char) * (precision + 1))))
+			return (NULL);
+	}
+	else
+		return (src);
+	str[precision] = '\0';
+	if (c == 's')
+		strncpy(str, src, precision);
+	else
+	{
+		ft_memset(str, '0', precision);
+		ft_strcpy(str + (precision - ft_strlen(src)), src);
+	}
+	free(src);
+	return (str);
+
+}
+
+
 int		ft_conversion(char *s, va_list ap, t_list *to_print)
 {
 	int		i;
 	int		width;
 	int		w_indicator;
+	int		precision;
 	char	*str;
+	char	*tmp;
 	t_list	*new;
 
 	str = NULL;
 	i = -1;
 	width = -1;
 	w_indicator = 0;
-	while (s[++i] && ft_strchr("cspdiuxX%", s[i]) == 0)
+	precision = -1;
+	while (s[++i] && ft_strchr("cspdiuxX%.", s[i]) == 0)
 	{
 		if (s[i] >= '1' && s[i] <= '9' && width == -1)
 		{
@@ -182,9 +211,22 @@ int		ft_conversion(char *s, va_list ap, t_list *to_print)
 		else if ((s[i] == '0' && s[w_indicator] != '-') || s[i] == '-')
 			w_indicator = i;
 	}
+	if (s[i] == '.')
+	{
+		if (s[++i] >= '1' && s[i] <= '9' && precision == -1)
+		{
+			precision = ft_atoi(s + i);
+			i += get_size(precision) - 1;
+		}
+		else if (s[i] == '*')
+			precision = va_arg(ap, int);
+		i++;
+	}
 	if (ft_strchr("cspdiuxX%", s[i]))
 	{
 		str = ft_get_params_str(s[i], ap);
+		if (precision >= 0)
+			str = ft_precise_str(str, s[i], precision);
 		if (width > ft_strlen(str))
 			str = ft_transform_str(str, s[w_indicator], width);
 		if (str == NULL)
@@ -251,6 +293,6 @@ int main(int ac, char **av)
 {
 	int a = 200;
 	int *p = &a;
-	printf("|%p|\n", p);
-	ft_printf("|%p|", p);
+	printf("|%10.3d|\n", 1);
+	ft_printf("|%10.3d|", 1);
 }
