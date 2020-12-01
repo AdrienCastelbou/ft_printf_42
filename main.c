@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/11/30 17:44:29 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/01 10:02:35 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ char	*ft_convert_hex(long int nb, char *base)
 
 char	*ft_get_params_str(char c, va_list ap)
 {
-	char *str;
+	char	*str;
+	char	*tmp;
 
 	if (c == 'c')
 	{
@@ -102,7 +103,11 @@ char	*ft_get_params_str(char c, va_list ap)
 		str = strndup(&c, 1);
 	}
 	else if (c == 'p')
-		str = ft_convert_hex(va_arg(ap, unsigned long long), "0123456789abcdef");
+	{
+		tmp = ft_convert_hex(va_arg(ap, unsigned long long), "0123456789abcdef");
+		str = ft_strjoin("0x", tmp);
+		free(tmp);
+	}
 	else if (c == 's')
 		str = strdup(va_arg(ap,char *));
 	else if (c == 'd' || c == 'i')
@@ -246,6 +251,6 @@ int main(int ac, char **av)
 {
 	int a = 200;
 	int *p = &a;
-	//ft_printf("\n", p);
-	printf("|%4.3d|", 1);
+	printf("|%p|\n", p);
+	ft_printf("|%p|", p);
 }
