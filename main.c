@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/02 11:37:24 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/02 14:45:53 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,28 +146,47 @@ char		*ft_transform_str(char *src, t_infos *infos)
 	return (str);
 }
 
+char		*ft_precise_neg(char *src, t_infos *infos)
+{
+	char	*tmp;
+	char	*dst;
+
+	tmp = ft_substr(src, 1, ft_strlen(src + 1));
+	if (!(dst = (char *)malloc(sizeof(char) * (infos->precision + 1))))
+			return (NULL);
+	ft_memset(dst, '0', infos->precision);
+	ft_strcpy(dst + (infos->precision - ft_strlen(tmp)), tmp);
+	free(tmp);
+	tmp = dst;
+	dst = ft_strjoin("-", tmp);
+	free(tmp);
+	return (dst);
+}
+
 char		*ft_precise_str(char *src, char c, t_infos *infos)
 {
-	char	*str;
+	char	*dst;
 
+	if (ft_strchr("diuxX", c) && src[0] == '-' && infos->precision > ft_strlen(src + 1))
+		return (ft_precise_neg(src, infos));
 	if ((c == 's' && infos->precision < ft_strlen(src)) ||
 			(ft_strchr("diuxX", c) && infos->precision > ft_strlen(src)))
 	{
-		if (!(str = (char *)malloc(sizeof(char) * (infos->precision + 1))))
+		if (!(dst = (char *)malloc(sizeof(char) * (infos->precision + 1))))
 			return (NULL);
 	}
 	else
 		return (src);
-	str[infos->precision] = '\0';
+	dst[infos->precision] = '\0';
 	if (c == 's')
-		strncpy(str, src, infos->precision);
+		strncpy(dst, src, infos->precision);
 	else
 	{
-		ft_memset(str, '0', infos->precision);
-		ft_strcpy(str + (infos->precision - ft_strlen(src)), src);
+		ft_memset(dst, '0', infos->precision);
+		ft_strcpy(dst + (infos->precision - ft_strlen(src)), src);
 	}
 	free(src);
-	return (str);
+	return (dst);
 }
 
 t_infos		*ft_infosnew(void)
@@ -289,6 +308,6 @@ int			main(int ac, char **av)
 
 	a = 200;
 	p = &a;
-	printf("|%030.d|\n", 2);
-	ft_printf("|%030.d|", 2);
+	printf("|%030.20d|\n", -1110);
+	ft_printf("|%030.20d|", -1110);
 }
