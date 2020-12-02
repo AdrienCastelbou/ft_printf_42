@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:09:17 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/02 15:11:13 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/02 15:30:29 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		ft_get_width_infos(char *s, t_infos **infos, va_list ap)
 		else if (s[i] == '*')
 			(*infos)->width = va_arg(ap, int);
 		else if (s[i] == '0' && (*infos)->align == 0)
-			(*infos)->_0_ = 1;
+			(*infos)->zero = 1;
 		else if (s[i] == '-')
 			(*infos)->align = 1;
 	}
@@ -113,7 +113,7 @@ char		*ft_transform_str(char *src, t_infos *infos)
 	if (!(str = (char *)malloc(sizeof(char) * (infos->width + 1))))
 		return (NULL);
 	str[infos->width] = '\0';
-	if (infos->_0_ && !infos->align && infos->precision < 0)
+	if (infos->zero && !infos->align && infos->precision < 0)
 		ft_memset(str, '0', infos->width);
 	else
 		ft_memset(str, ' ', infos->width);

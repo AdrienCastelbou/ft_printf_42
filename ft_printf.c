@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/02 15:24:36 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/02 15:29:29 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_infos		*ft_infosnew(void)
 
 	if (!(new = (t_infos*)malloc(sizeof(t_infos))))
 		return (NULL);
-	new->_0_ = 0;
+	new->zero = 0;
 	new->width = -1;
 	new->align = 0;
 	new->precision = -1;
