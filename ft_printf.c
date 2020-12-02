@@ -6,17 +6,15 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/01 17:54:57 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/01 12:06:23 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "ft_printf.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
-
 
 static int	get_size(long int n)
 {
@@ -139,20 +137,20 @@ char	*ft_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-char	*ft_transform_str(char *src, t_infos *infos)
+char	*ft_transform_str(char *src, char c, int width, int precision)
 {
 	char	*str;
 	int		start;
 
-	if (!(str = (char *)malloc(sizeof(char) * (infos->width + 1))))
+	if (!(str = (char *)malloc(sizeof(char) * (width + 1))))
 		return (NULL);
-	str[infos->width] = '\0';
-	if ( infos->_0_ && !infos->align && infos->precision == -1)
-		ft_memset(str, '0',infos->width);
+	str[width] = '\0';
+	if (c == '0' && precision == -1)
+		ft_memset(str, '0', width);
 	else
-		ft_memset(str, ' ', infos->width);
-	start = infos->width - ft_strlen(src);
-	if (infos->align)
+		ft_memset(str, ' ', width);
+	start = width - ft_strlen(src);
+	if (c == '-')
 		ft_memcpy(str, src, ft_strlen(src));
 	else
 		ft_strcpy(str + start, src);
@@ -160,117 +158,135 @@ char	*ft_transform_str(char *src, t_infos *infos)
 	return (str);
 }
 
-char	*ft_precise_str(char *src, char c, t_infos *infos)
+char	*ft_precise_str(char *src, char c, int precision)
 {
 	char	*str;
 
-	if ((c == 's' && infos->precision < ft_strlen(src)) ||
-			(ft_strchr("diuxX", c) && infos->precision > ft_strlen(src)))
+	if ((c == 's' && precision < ft_strlen(src)) ||
+			(ft_strchr("diuxX", c) && precision > ft_strlen(src)))
 	{
-		if (!(str = (char *)malloc(sizeof(char) * (infos->precision + 1))))
+		if (!(str = (char *)malloc(sizeof(char) * (precision + 1))))
 			return (NULL);
 	}
 	else
 		return (src);
-	str[infos->precision] = '\0';
+	str[precision] = '\0';
 	if (c == 's')
-		strncpy(str, src, infos->precision);
+		strncpy(str, src, precision);
 	else
 	{
-		ft_memset(str, '0', infos->precision);
-		ft_strcpy(str + (infos->precision - ft_strlen(src)), src);
+		ft_memset(str, '0', precision);
+		ft_strcpy(str + (precision - ft_strlen(src)), src);
 	}
 	free(src);
 	return (str);
+
 }
 
-t_infos	*ft_infosnew(void)
-{
-	t_infos *new;
-
-	if (!(new = (t_infos*)malloc(sizeof(t_infos))))
-		return (NULL);
-	new->_0_ = 0;
-	new->width = -1;
-	new->align = 0;
-	new->precision = -1;
-	return (new);
-}
-
-int		ft_conversion(char *s, va_list ap)
+int		ft_conversion(char *s, va_list ap, t_list *to_print)
 {
 	int		i;
+	int		width;
+	int		w_indicator;
+	int		precision;
 	char	*str;
 	char	*tmp;
-	t_infos *infos;
+	t_list	*new;
 
-	infos = ft_infosnew();
+	str = NULL;
 	i = -1;
+	width = -1;
+	w_indicator = 0;
+	precision = -1;
 	while (s[++i] && ft_strchr("cspdiuxX%.", s[i]) == 0)
 	{
-		if (s[i] >= '1' && s[i] <= '9' && infos->width == -1)
+		if (s[i] >= '1' && s[i] <= '9' && width == -1)
 		{
-			infos->width = ft_atoi(s + i);
-			i += get_size(infos->width) - 1;
+			width = ft_atoi(s + i);
+			i += get_size(width) - 1;
 		}
 		else if (s[i] == '*')
-			infos->width = va_arg(ap, int);
-		else if (s[i] == '0' && infos->align == 0)
-			infos->_0_ = 1;
-		else if (s[i] == '-')
-			infos->align = 1;
+			width = va_arg(ap, int);
+		else if ((s[i] == '0' && s[w_indicator] != '-') || s[i] == '-')
+			w_indicator = i;
 	}
 	if (s[i] == '.')
 	{
-		if (s[++i] >= '1' && s[i] <= '9' && infos->precision == -1)
+		if (s[++i] >= '1' && s[i] <= '9' && precision == -1)
 		{
-			infos->precision = ft_atoi(s + i);
-			i += get_size(infos->precision) - 1;
+			precision = ft_atoi(s + i);
+			i += get_size(precision) - 1;
 		}
 		else if (s[i] == '*')
-			infos->precision = va_arg(ap, int);
+			precision = va_arg(ap, int);
 		i++;
 	}
 	if (ft_strchr("cspdiuxX%", s[i]))
 	{
 		str = ft_get_params_str(s[i], ap);
-		if (infos->precision >= 0)
-			str = ft_precise_str(str, s[i], infos);
-		if (infos->width > ft_strlen(str))
-			str = ft_transform_str(str, infos);
+		if (precision >= 0)
+			str = ft_precise_str(str, s[i], precision);
+		if (width > ft_strlen(str))
+			str = ft_transform_str(str, s[w_indicator], width, precision);
 		if (str == NULL)
 			return (-1);
-		write(1, str, ft_strlen(str));
+		new = ft_lstnew(str);
+		ft_lstadd_back(&to_print, new);
 	}
-	return (ft_strlen(str));
+	return (i);
+}
+
+int		ft_print_all(t_list *to_print)
+{
+	int len;
+
+	len = 0;
+	while (to_print)
+	{
+		if (to_print->content)
+			ft_putstr_fd((char *)to_print->content, 1);
+		len += ft_strlen((char *)to_print->content);
+		to_print = to_print->next;
+	}
+	return (len);
 }
 
 int		ft_printf(const char *s, ...)
 {
 	va_list		ap;
+	t_list	*to_print = NULL;
+	char		*tmp;
 	int			i;
-	int			count;
+	int j;
 
-	count = 0;
 	va_start(ap, s);
-	i = -1;
-	while (s[++i])
-	{
-		if (s[i] == '%')
+	i = 0;
+	j = -1;
+	while (s[++j])
+		if (s[j] == '%')
 		{
-			++i;
-			count += ft_conversion((char *)&s[i], ap);
-			while (s[i] && !ft_strchr("cspdiuxX%", s[i]))
-				i++;
+			tmp = strndup(s + i, j - i);
+			ft_lstadd_back(&to_print, ft_lstnew((void *)tmp));
+			i = j;
+			if ((j = ft_conversion((char *)&s[i += 1], ap, to_print)) == -1)
+			{
+				ft_lstclear(&to_print, free);
+				return (-1);
+			}
+			i += j + 1;
+			j = i - 1;
 		}
-		else
-			count += write(1, &s[i], 1);
-		if (!s[i])
-			break;
+	if (j > i)
+	{
+		tmp = strndup(s + i, j - i);
+		ft_lstadd_back(&to_print, ft_lstnew((void *)tmp));
 	}
+	i = ft_print_all(to_print);
+	ft_lstclear(&to_print, free);
 	va_end(ap);
-	return (count);
+	return (i);
 }
+
 
 int main(int ac, char **av)
 {
@@ -278,6 +294,6 @@ int main(int ac, char **av)
 	int *p = &a;
 	char *s = "hello";
 
-	printf("|%010.3d|\n", 2);
-	ft_printf("|%010.3d|", 2);
+	printf("|%010.3d|\n", 1);
+	ft_printf("|%010.3d|", 1);
 }
