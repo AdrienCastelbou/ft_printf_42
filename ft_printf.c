@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/01 12:06:23 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/02 10:11:43 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-static int	get_size(long int n)
+int	ft_get_size(long int n, int syst)
 {
 	int			i;
 
 	i = 1;
 	if (n < 0)
-		n += 4294967296;
-	while (n >= 10)
+		n *= -1;
+	while (n >= syst)
 	{
-		n /= 10;
+		n /= syst;
 		i++;
 	}
 	return (i);
@@ -54,7 +54,7 @@ char		*ft_utoa(long int n)
 
 	if (n < 0)
 		n += 4294967296;
-	len = get_size(n);
+	len = ft_get_size(n, 10);
 	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	str = create_str(str, n, len);
@@ -70,16 +70,12 @@ char	*ft_convert_hex(long int nb, char *base)
 
 	is_neg = 0;
 	n = nb;
+	size = ft_get_size(n, 16);
 	size = 1;
 	if (n < 0)
 	{
 		size += 1;
 		n *= -1;
-	}
-	while (n >= 16)
-	{
-		n /= 16;
-		size += 1;
 	}
 	if (!(str = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
@@ -203,7 +199,7 @@ int		ft_conversion(char *s, va_list ap, t_list *to_print)
 		if (s[i] >= '1' && s[i] <= '9' && width == -1)
 		{
 			width = ft_atoi(s + i);
-			i += get_size(width) - 1;
+			i += ft_get_size(width, 10) - 1;
 		}
 		else if (s[i] == '*')
 			width = va_arg(ap, int);
@@ -215,7 +211,7 @@ int		ft_conversion(char *s, va_list ap, t_list *to_print)
 		if (s[++i] >= '1' && s[i] <= '9' && precision == -1)
 		{
 			precision = ft_atoi(s + i);
-			i += get_size(precision) - 1;
+			i += ft_get_size(precision, 10) - 1;
 		}
 		else if (s[i] == '*')
 			precision = va_arg(ap, int);
