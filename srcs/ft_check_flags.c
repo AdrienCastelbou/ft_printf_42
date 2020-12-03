@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:09:17 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/03 17:32:05 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/03 22:58:23 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,17 @@ void		ft_get_width_infos(char *s, t_infos **infos, va_list ap)
 	i = -1;
 	while (s[++i] && ft_strchr("cspdiuxX%.", s[i]) == 0)
 	{
-		if (s[i] >= '1' && s[i] <= '9' && (*infos)->width == -1)
+		if (s[i] >= '1' && s[i] <= '9' && (*infos)->width == 0)
 		{
 			(*infos)->width = ft_atoi(s + i);
 			i += get_size((*infos)->width, 10) - 1;
 		}
 		else if (s[i] == '*')
+		{
 			(*infos)->width = va_arg(ap, int);
+			if ((*infos)->width < 0)
+				(*infos)->align = 1;
+		}
 		else if (s[i] == '0' && (*infos)->align == 0)
 			(*infos)->zero = 1;
 		else if (s[i] == '-')
