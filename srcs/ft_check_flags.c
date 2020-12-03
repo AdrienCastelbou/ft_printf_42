@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:09:17 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/03 10:31:25 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/03 17:32:05 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void		ft_get_width_infos(char *s, t_infos **infos, va_list ap)
 		else if (s[i] == '-')
 			(*infos)->align = 1;
 	}
+	if ((*infos)->width < 0)
+		(*infos)->width *= -1;
 }
 
 void		ft_get_precision_infos(char *s, t_infos **infos, va_list ap)
@@ -59,50 +61,10 @@ void		ft_get_precision_infos(char *s, t_infos **infos, va_list ap)
 			i++;
 		}
 	}
-}
-
-char		*ft_precise_neg(char *src, t_infos *infos)
-{
-	char	*tmp;
-	char	*dst;
-
-	tmp = ft_substr(src, 1, ft_strlen(src + 1));
-	if (!(dst = (char *)malloc(sizeof(char) * (infos->precision + 1))))
-		return (NULL);
-	ft_memset(dst, '0', infos->precision);
-	ft_strcpy(dst + (infos->precision - ft_strlen(tmp)), tmp);
-	free(tmp);
-	tmp = dst;
-	dst = ft_strjoin("-", tmp);
-	free(tmp);
-	return (dst);
-}
-
-char		*ft_precise_str(char *src, char c, t_infos *infos)
-{
-	char	*dst;
-
-	if (ft_strchr("diuxX", c) && src[0] == '-' &&
-			infos->precision > ft_strlen(src + 1))
-		return (ft_precise_neg(src, infos));
-	if ((c == 's' && infos->precision < ft_strlen(src)) ||
-			(ft_strchr("diuxX", c) && infos->precision > ft_strlen(src)))
-	{
-		if (!(dst = (char *)malloc(sizeof(char) * (infos->precision + 1))))
-			return (NULL);
-	}
-	else
-		return (src);
-	dst[infos->precision] = '\0';
-	if (c == 's')
-		strncpy(dst, src, infos->precision);
-	else
-	{
-		ft_memset(dst, '0', infos->precision);
-		ft_strcpy(dst + (infos->precision - ft_strlen(src)), src);
-	}
-	free(src);
-	return (dst);
+	while (s[i] && ft_strchr("cspdiuxX%", s[i]) == 0)
+		i++;;
+	if (ft_strchr("cspdiuxX%.", s[i]))
+		(*infos)->conversion = s[i];
 }
 
 char		*ft_transform_str(char *src, t_infos *infos)
@@ -124,4 +86,44 @@ char		*ft_transform_str(char *src, t_infos *infos)
 		ft_strcpy(str + start, src);
 	free(src);
 	return (str);
+}
+
+char	*ft_precise_nb(char *str, t_infos *infos)
+{
+	char *dst;
+
+	if (ft_atoi(str) < 0 && ft_strlen(str) -1 < infos->precision)
+		return (ft_precise_neg(str, infos));
+	else if (str[0] == '0' && infos->precision == 0)
+	{
+		str[0] = '\0';
+		return (str);
+	}
+	else if (ft_strlen(str) < infos->precision)
+	{
+		if (!(dst = (char *)malloc(sizeof(char) * (infos->precision + 1))))
+				return (NULL);
+		ft_memset(dst, '0', infos->precision);
+		ft_strcpy(dst + (infos->precision - ft_strlen(str)), str);
+		free(str);
+		return (dst);
+	}
+	return (str);
+}
+
+char		*ft_precise_neg(char *src, t_infos *infos)
+{
+	char	*tmp;
+	char	*dst;
+
+	if (!(dst = (char *)malloc(sizeof(char) * (infos->precision + 1))))
+		return (NULL);
+	dst[infos->precision] = '\0';
+	ft_memset(dst, '0', infos->precision);
+	ft_strcpy(dst + (infos->precision - ft_strlen(src + 1)), src + 1);
+	tmp = dst;
+	dst = ft_strjoin("-", tmp);
+	free(src);
+	free(tmp);
+	return (dst);
 }

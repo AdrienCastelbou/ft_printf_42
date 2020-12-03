@@ -6,12 +6,21 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/03 10:33:45 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/03 17:36:14 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "../includes/ft_printf.h"
+
+char	*ft_make_precise(char *str, t_infos *infos)
+{
+	if (infos->conversion == 's' && infos->precision < ft_strlen(str))
+		str[infos->precision] = '\0';
+	else if (ft_strchr("diuxX", infos->conversion))
+		return (ft_precise_nb(str, infos));
+	return (str);
+}
 
 char		*ft_strcpy(char *dest, char *src)
 {
@@ -42,28 +51,24 @@ t_infos		*ft_infosnew(void)
 
 int			ft_conversion(char *s, va_list ap)
 {
-	int		i;
 	char	*str;
 	t_infos *infos;
+	int		len;
 
+	str = NULL;
 	infos = ft_infosnew();
-	i = -1;
 	ft_get_width_infos(s, &infos, ap);
 	ft_get_precision_infos(s, &infos, ap);
-	while (s[++i] && ft_strchr("cspdiuxX%", s[i]) == 0)
-		;
-	if (ft_strchr("cspdiuxX%", s[i]))
-	{
-		str = ft_get_params_str(s[i], ap);
-		str = ft_precise_str(str, s[i], infos);
-		if (infos->width > ft_strlen(str))
-			str = ft_transform_str(str, infos);
-		if (str == NULL)
-			return (-1);
-		write(1, str, ft_strlen(str));
-		return (ft_strlen(str));
-	}
-	return (-1);
+	str = ft_get_params_str(infos->conversion, ap);
+	str = ft_make_precise(str,infos);
+	if (infos->width > ft_strlen(str))
+		str = ft_transform_str(str, infos);
+	if (str == NULL)
+		return (-1);
+	len = ft_strlen(str);
+	write(1, str, len);
+	free(str);
+	return (len);
 }
 
 int			ft_printf(const char *s, ...)

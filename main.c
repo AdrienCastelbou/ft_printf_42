@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 13:57:34 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/03 16:49:15 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/03 17:39:41 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,13 +209,6 @@ t_infos		*ft_infosnew(void)
 	return (new);
 }
 
-char	*ft_precise_str(char *str, t_infos *infos)
-{
-	if (infos->precision < ft_strlen(str))
-		str[infos->precision] = '\0';
-	return (str);
-}
-
 char		*ft_precise_neg(char *src, t_infos *infos)
 {
 	char	*tmp;
@@ -257,8 +250,8 @@ char	*ft_precise_nb(char *str, t_infos *infos)
 }
 char	*ft_make_precise(char *str, t_infos *infos)
 {
-	if (infos->conversion == 's')
-		return (ft_precise_str(str, infos));
+	if (infos->conversion == 's' && (infos->precision < ft_strlen(str)))
+		str[infos->precision] = '\0';
 	else if (ft_strchr("diuxX", infos->conversion))
 		return (ft_precise_nb(str, infos));
 	return (str);
@@ -316,31 +309,5 @@ int			ft_printf(const char *s, ...)
 
 int main()
 {
-	int		a = -4;
-	int		b = 0;
-	char	c = 'a';
-	int		d = 2147483647;
-	int		e = -2147483648;
-	int		f = 42;
-	int		g = 25;
-	int		h = 4200;
-	int		i = 8;
-	int		j = -12;
-	int		k = 123456789;
-	int		l = 0;
-	int		m = -12345678;
-	char	*n = "abcdefghijklmnop";
-	char	*o = "-a";
-	char	*p = "-12";
-	char	*q = "0";
-	char	*r = "%%";
-	char	*s = "-2147483648";
-	char	*t = "0x12345678";
-	char	*u = "-0";
-
-	ft_printf(" --- Return : %d\n", ft_printf("%-*x, %-*p, %-*x", a, 1, a, NULL, a, 0));
-	printf(" --- Return : %d\n", printf("%-*x, %-*p, %-*x", a, 1, a, NULL, a, 0));
-
+	ft_printf("%.3s", "hello");
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:31:14 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/03 14:16:16 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/03 17:37:52 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int				ft_conversion(char *s, va_list ap);
 void			ft_get_precision_infos(char *s, t_infos **infos, va_list ap);
 void			ft_get_width_infos(char *s, t_infos **infos, va_list ap);
 t_infos			*ft_infosnew(void);
-//char			*ft_precise_str(char *src, char c, t_infos *infos);
+char			*ft_make_precise(char *str, t_infos *infos);
+char			*ft_precise_nb(char *str, t_infos *infos);
 char			*ft_precise_neg(char *src, t_infos *infos);
 char			*ft_transform_str(char *src, t_infos *infos);
 char			*ft_strcpy(char *dest, char *src);
