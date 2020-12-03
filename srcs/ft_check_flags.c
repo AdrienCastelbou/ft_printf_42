@@ -6,12 +6,12 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:09:17 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/02 15:30:29 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/03 10:31:25 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

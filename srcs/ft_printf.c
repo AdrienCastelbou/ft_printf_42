@@ -6,12 +6,12 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/02 15:29:29 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/03 10:33:45 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 char		*ft_strcpy(char *dest, char *src)
 {
@@ -44,7 +44,6 @@ int			ft_conversion(char *s, va_list ap)
 {
 	int		i;
 	char	*str;
-	char	*tmp;
 	t_infos *infos;
 
 	infos = ft_infosnew();
