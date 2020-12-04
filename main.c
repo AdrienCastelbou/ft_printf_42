@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 13:57:34 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/04 15:06:01 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/04 17:57:16 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int main()
 
 	a = 42;
 	b = 25;
-	ft_printf(" --- Return : %d\n", ft_printf("%*.*u", a, b, j));
-	printf(" --- Return : %d\n", printf("%*.*u", a, b, j));
 
+//	printf(" --- Return : %d\n", printf("%---2s, %.*s, %.0s, %.1s", NULL, -2, NULL, NULL, NULL));
+//	ft_printf(" --- Return : %d\n", ft_printf("%---2s, %.*s, %.0s, %.1s", NULL, -2, NULL, NULL, NULL));
+	ft_printf(" %2s", "hello");
 }

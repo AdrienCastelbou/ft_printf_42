@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/03 10:33:11 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/04 17:34:50 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,20 @@ char		*ft_convert_hex(long int nb, char *base)
 	return (str);
 }
 
+char	*ft_convert_str(va_list ap)
+{
+	va_list	aq;
+	char	*str;
+
+	va_copy(aq, ap);
+	if (va_arg(aq, char *) == NULL)
+		str = ft_strdup("(null)");
+	else
+		str = strdup(va_arg(ap, char *));
+	va_end(aq);
+	return (str);
+}
+
 char		*ft_get_params_str(char c, va_list ap)
 {
 	char	*str = NULL;
@@ -97,7 +111,7 @@ char		*ft_get_params_str(char c, va_list ap)
 		free(tmp);
 	}
 	else if (c == 's')
-		str = strdup(va_arg(ap, char *));
+		str = ft_convert_str(ap); 
 	else if (c == 'd' || c == 'i')
 		str = ft_itoa(va_arg(ap, int));
 	else if (c == 'u')
