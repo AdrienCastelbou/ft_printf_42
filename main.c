@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 13:57:34 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/03 22:53:53 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/04 15:06:01 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int main()
 	char	*t = "0x12345678";
 	char	*u = "-0";
 
-	printf(" --- Return : %d\n", printf("%0.d", l));
-	ft_printf(" --- Return : %d\n", ft_printf("%*i, %*d, %*d, %*d, %*d, %*d, %*d, %*d", a, i, a, j, a, k, a, l, a, m, a, c, a, e, a, d));
-	printf(" --- Return : %d\n", printf("%*i, %*d, %*d, %*d, %*d, %*d, %*d, %*d", a, i, a, j, a, k, a, l, a, m, a, c, a, e, a, d));
-
+	a = 42;
+	b = 25;
+	ft_printf(" --- Return : %d\n", ft_printf("%*.*u", a, b, j));
+	printf(" --- Return : %d\n", printf("%*.*u", a, b, j));
 
 }

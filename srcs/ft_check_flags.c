@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:09:17 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/03 22:58:23 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/04 15:24:08 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,32 +71,50 @@ void		ft_get_precision_infos(char *s, t_infos **infos, va_list ap)
 		(*infos)->conversion = s[i];
 }
 
-char		*ft_transform_str(char *src, t_infos *infos)
+char		*ft_transform_neg(char *src, t_infos *infos)
 {
-	char	*str;
-	int		start;
+	char	*dst;
 
-	if (!(str = (char *)malloc(sizeof(char) * (infos->width + 1))))
+	if (!(dst = (char *)malloc(sizeof(char) * (infos->width + 1))))
 		return (NULL);
-	str[infos->width] = '\0';
-	if (infos->zero && !infos->align && infos->precision < 0)
-		ft_memset(str, '0', infos->width);
-	else
-		ft_memset(str, ' ', infos->width);
-	start = infos->width - ft_strlen(src);
-	if (infos->align)
-		ft_memcpy(str, src, ft_strlen(src));
-	else
-		ft_strcpy(str + start, src);
+	dst[infos->width] = '\0';
+	ft_memset(dst, '0', infos->width);
+	ft_strcpy(dst + (infos->width - ft_strlen(src + 1)), src + 1);
+	dst[0] = '-';
 	free(src);
-	return (str);
+	return (dst);
+
 }
 
-char	*ft_precise_nb(char *str, t_infos *infos)
+char		*ft_transform_str(char *src, t_infos *infos)
+{
+	char	*dst;
+	int		start;
+
+	if (src[0] == '-' && ft_strlen(src) -1 < infos->width &&
+			infos->zero && !infos->align && infos->precision < 0)
+		return (ft_transform_neg(src, infos));
+	if (!(dst = (char *)malloc(sizeof(char) * (infos->width + 1))))
+		return (NULL);
+	dst[infos->width] = '\0';
+	if (infos->zero && !infos->align && infos->precision < 0)
+		ft_memset(dst, '0', infos->width);
+	else
+		ft_memset(dst, ' ', infos->width);
+	start = infos->width - ft_strlen(src);
+	if (infos->align)
+		ft_memcpy(dst, src, ft_strlen(src));
+	else
+		ft_strcpy(dst + start, src);
+	free(src);
+	return (dst);
+}
+
+char		*ft_precise_nb(char *str, t_infos *infos)
 {
 	char *dst;
 
-	if (ft_atoi(str) < 0 && ft_strlen(str) -1 < infos->precision)
+	if (str[0] == '-' && ft_strlen(str) -1 < infos->precision)
 		return (ft_precise_neg(str, infos));
 	else if (str[0] == '0' && infos->precision == 0)
 	{
