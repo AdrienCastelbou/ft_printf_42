@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:31:14 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/03 17:37:52 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/06 15:45:23 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct	s_infos
 	int			width;
 	int			align;
 	int			precision;
-	char		conversion;
+	int			conversion;
 }				t_infos;
 
 int				ft_printf(const char *s, ...);
