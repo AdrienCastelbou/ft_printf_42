@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 13:57:34 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/07 15:31:41 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/07 15:59:20 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 int main()
 {
-	printf("%.0s", "hello");
-	ft_printf("%.0s", "hello");
+	printf("%5.");
+	ft_printf("%5.");
 }

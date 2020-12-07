@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:09:17 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/07 15:31:01 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/07 15:56:41 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ void		ft_get_precision_infos(char *s, t_infos **infos, va_list ap)
 	}
 	while (s[i] && ft_strchr("cspdiuxX%", s[i]) == 0)
 		i++;
-	if (ft_strchr("cspdiuxX%.", s[i]))
-		(*infos)->conversion = s[i] - 0;
+	(*infos)->conversion = s[i] - 0;
 }
 
 char		*ft_transform_neg(char *src, t_infos *infos)
