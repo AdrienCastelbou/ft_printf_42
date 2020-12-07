@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/07 14:50:39 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/07 15:16:24 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,12 @@ int		ft_convert_str(char *str, t_infos *infos)
 				write(1," ", 1);
 		write(1, str, len);
 	}
+	if ( i < 0)
+		i = 0;
 	return (i + len);
 }
 
-char		*ft_get_params_str(char c, va_list ap, t_infos *infos)
+char		*ft_get_params_str(char c, va_list ap)
 {
 	char	*str = NULL;
 	char	*tmp;
@@ -126,10 +128,7 @@ char		*ft_get_params_str(char c, va_list ap, t_infos *infos)
 		free(tmp);
 	}
 	else if (c == 's')
-	{
-		ft_convert_str(va_arg(ap, char *) , infos);
 		return (NULL);
-	}
 	else if (c == 'd' || c == 'i')
 		str = ft_itoa(va_arg(ap, int));
 	else if (c == 'u')
