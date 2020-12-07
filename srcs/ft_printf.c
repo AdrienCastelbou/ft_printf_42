@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/07 15:58:07 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/07 17:55:58 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int			ft_conversion(char *s, va_list ap)
 	infos = ft_infosnew();
 	ft_get_width_infos(s, &infos, ap);
 	ft_get_precision_infos(s, &infos, ap);
-	if (ft_strchr("cspdiuxX%", infos->conversion))
+	if (!ft_strchr("cspdiuxX%", infos->conversion))
 		return (0);
 	str = ft_get_params_str(infos->conversion, ap);
 	if (infos->conversion == 's')
