@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:09:17 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/06 15:56:02 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/07 15:31:01 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		ft_get_precision_infos(char *s, t_infos **infos, va_list ap)
 	if (s[i] == '.')
 	{
 		(*infos)->precision = 0;
-		if (s[++i] >= '1' && s[i] <= '9')
+		if (s[++i] >= '0' && s[i] <= '9')
 		{
 			(*infos)->precision = ft_atoi(s + i);
 			i += get_size((*infos)->precision, 10) - 1;
