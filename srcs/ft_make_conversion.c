@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/07 15:30:32 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/07 16:10:09 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ int		ft_convert_str(char *str, t_infos *infos)
 {
 	int i;
 	int len;
+	char c;
+
+	c = ' ';
 	i = -1;
 	if (str == NULL)
 		str = "(null)";
@@ -99,8 +102,10 @@ int		ft_convert_str(char *str, t_infos *infos)
 	else
 	{
 		if (infos->width > len)
+			if (infos->zero)
+				c = '0';
 			while (++i < infos->width - len)
-				write(1," ", 1);
+				write(1, &c, 1);
 		write(1, str, len);
 	}
 	if ( i < 0)
