@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/04 17:34:50 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/07 14:50:39 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,34 @@ char		*ft_convert_hex(long int nb, char *base)
 	return (str);
 }
 
-char	*ft_convert_str(va_list ap)
+int		ft_convert_str(char *str, t_infos *infos)
 {
-	va_list	aq;
-	char	*str;
-
-	va_copy(aq, ap);
-	if (va_arg(aq, char *) == NULL)
-		str = ft_strdup("(null)");
+	int i;
+	int len;
+	i = -1;
+	if (str == NULL)
+		str = "(null)";
+	len = ft_strlen(str);
+	if (infos->precision >= 0 && infos->precision < len)
+		len = infos->precision;
+	if (infos->align)
+	{
+		write(1, str, len);
+		if (infos->width > len)
+			while (++i < infos->width - len)
+				write(1," ", 1);
+	}
 	else
-		str = strdup(va_arg(ap, char *));
-	va_end(aq);
-	return (str);
+	{
+		if (infos->width > len)
+			while (++i < infos->width - len)
+				write(1," ", 1);
+		write(1, str, len);
+	}
+	return (i + len);
 }
 
-char		*ft_get_params_str(char c, va_list ap)
+char		*ft_get_params_str(char c, va_list ap, t_infos *infos)
 {
 	char	*str = NULL;
 	char	*tmp;
@@ -101,6 +114,8 @@ char		*ft_get_params_str(char c, va_list ap)
 	if (c == 'c')
 	{
 		c = (va_arg(ap, int));
+		if (c == 0)
+			c = ' ';
 		str = strndup(&c, 1);
 	}
 	else if (c == 'p')
@@ -111,7 +126,10 @@ char		*ft_get_params_str(char c, va_list ap)
 		free(tmp);
 	}
 	else if (c == 's')
-		str = ft_convert_str(ap); 
+	{
+		ft_convert_str(va_arg(ap, char *) , infos);
+		return (NULL);
+	}
 	else if (c == 'd' || c == 'i')
 		str = ft_itoa(va_arg(ap, int));
 	else if (c == 'u')

@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/06 15:53:44 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/07 14:25:08 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,14 @@ int			ft_conversion(char *s, va_list ap)
 	infos = ft_infosnew();
 	ft_get_width_infos(s, &infos, ap);
 	ft_get_precision_infos(s, &infos, ap);
-	str = ft_get_params_str(infos->conversion, ap);
+	str = ft_get_params_str(infos->conversion, ap, infos);
+	if (infos->conversion == 's')
+		return (0);
 	str = ft_make_precise(str,infos);
 	if (str == NULL)
 		return (-1);
+	if (infos->conversion == 's')
+		return (0);
 	if (infos->width > ft_strlen(str))
 		str = ft_transform_str(str, infos);
 	if (str == NULL)
