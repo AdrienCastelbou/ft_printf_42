@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 14:56:19 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 17:35:27 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 17:37:09 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int			ft_print_pointer(unsigned long long nb, t_infos *infos)
 		write(1, "0x", 2);
 		ft_putstr_fd(str, 1);
 	}
-	return (ft_strlen(str) + i);
+	return (ft_strlen(str) + i + 2);
 }
 
 int			ft_print_params(char *str, t_infos *infos)
