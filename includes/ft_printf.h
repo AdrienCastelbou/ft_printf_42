@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:31:14 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 15:12:56 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 17:42:05 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ typedef struct	s_infos
 	int			precision;
 	int			conversion;
 }				t_infos;
+
 int				ft_printf(const char *s, ...);
 int				ft_conversion(char *s, va_list ap);
 t_infos			*ft_infosnew(void);
 char			*ft_strcpy(char *dest, char *src);
-char			*ft_make_precise(char *str, t_infos *infos);
 int				get_size(long int n, int syst);
 char			*create_str(char *str, long int n, int len);
 char			*ft_utoa(long int n);
@@ -41,7 +41,6 @@ char			*ft_transform_neg(char *src, t_infos *infos);
 char			*ft_transform_str(char *src, t_infos *infos);
 char			*ft_precise_nb(char *str, t_infos *infos);
 char			*ft_precise_neg(char *src, t_infos *infos);
-int				ft_print_char(char c, t_infos *infos);
 int				ft_print_char(char c, t_infos *infos);
 int				ft_print_pointer(unsigned long long nb, t_infos *infos);
 int				ft_print_params(char *str, t_infos *infos);

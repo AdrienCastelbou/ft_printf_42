@@ -6,21 +6,12 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 17:21:09 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 17:40:14 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "../includes/ft_printf.h"
-
-char		*ft_make_precise(char *str, t_infos *infos)
-{
-	if (infos->conversion == 's' && infos->precision < ft_strlen(str))
-		str[infos->precision] = '\0';
-	else if (ft_strchr("diuxXp", infos->conversion))
-		return (ft_precise_nb(str, infos));
-	return (str);
-}
 
 char		*ft_strcpy(char *dest, char *src)
 {
