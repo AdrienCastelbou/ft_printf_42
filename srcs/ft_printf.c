@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 14:59:35 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 17:21:09 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char		*ft_make_precise(char *str, t_infos *infos)
 {
 	if (infos->conversion == 's' && infos->precision < ft_strlen(str))
 		str[infos->precision] = '\0';
-	else if (ft_strchr("diuxX", infos->conversion))
+	else if (ft_strchr("diuxXp", infos->conversion))
 		return (ft_precise_nb(str, infos));
 	return (str);
 }

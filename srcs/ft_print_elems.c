@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 14:56:19 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 17:09:55 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 17:35:27 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,28 @@ int			ft_print_char(char c, t_infos *infos)
 
 int			ft_print_pointer(unsigned long long nb, t_infos *infos)
 {
-	char *str;
-	char *tmp;
+	char	*str;
+	int i;
 
+	i = -1;
 	if (nb == 0 && infos->precision == 0)
-		tmp = ft_strdup("");
+		str = ft_strdup("");
 	else
-		tmp = ft_convert_hex(nb, "0123456789abcdef");
-	str = ft_strjoin("0x", tmp);
-	free(tmp);
-	return (ft_print_params(str, infos));
+		str = ft_convert_hex(nb, "0123456789abcdef");
+	str = ft_make_precise(str, infos);
+	if (infos->align)
+	{
+		write(1, "0x", 2);
+		ft_putstr_fd(str, 1);
+	}
+	while (++i < infos->width - (ft_strlen(str) + 2))
+		ft_putchar_fd(' ', 1);
+	if (!infos->align)
+	{
+		write(1, "0x", 2);
+		ft_putstr_fd(str, 1);
+	}
+	return (ft_strlen(str) + i);
 }
 
 int			ft_print_params(char *str, t_infos *infos)
