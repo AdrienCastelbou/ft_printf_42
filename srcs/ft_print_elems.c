@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 14:56:19 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 14:59:03 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 17:09:55 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int			ft_print_pointer(unsigned long long nb, t_infos *infos)
 	char *str;
 	char *tmp;
 
-	tmp = ft_convert_hex(nb, "0123456789abcdef");
+	if (nb == 0 && infos->precision == 0)
+		tmp = ft_strdup("");
+	else
+		tmp = ft_convert_hex(nb, "0123456789abcdef");
 	str = ft_strjoin("0x", tmp);
 	free(tmp);
 	return (ft_print_params(str, infos));
