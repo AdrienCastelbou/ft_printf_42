@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/07 16:10:09 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 10:28:45 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ char		*ft_get_params_str(char c, va_list ap)
 	if (c == 'c')
 	{
 		c = (va_arg(ap, int));
-		if (c == 0)
-			c = ' ';
 		str = strndup(&c, 1);
 	}
 	else if (c == 'p')
