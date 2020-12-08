@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 14:23:01 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 14:49:46 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,51 +49,34 @@ t_infos		*ft_infosnew(void)
 	return (new);
 }
 
-int			ft_print_char(char *str, t_infos *infos)
+int			ft_print_char(char c, t_infos *infos)
 {
-	int i;
-	char width;
+	int		i;
+	char	width;
 
 	width = ' ';
 	if (infos->zero)
 		width = '0';
 	i = -1;
 	if (infos->align)
-		write(1, str, 1);
+		write(1, &c, 1);
 	while (++i < infos->width - 1)
 		write(1, &width, 1);
 	if (!infos->align)
-		write(1, str, 1);
+		write(1, &c, 1);
 	return (i + 1);
 }
 
 int			ft_conversion(char *s, va_list ap)
 {
-	char	*str;
 	t_infos *infos;
-	int		len;
 
-	str = NULL;
 	infos = ft_infosnew();
 	ft_get_width_infos(s, &infos, ap);
 	ft_get_precision_infos(s, &infos, ap);
 	if (infos->conversion == 0)
 		return (0);
-	str = ft_get_params_str(infos->conversion, ap);
-	if (infos->conversion == 's')
-		return (ft_print_str(va_arg(ap, char *), infos));
-	if (infos->conversion == 'c')
-		return (ft_print_char(str, infos));
-	str = ft_make_precise(str, infos);
-	if (infos->width > ft_strlen(str))
-		str = ft_transform_str(str, infos);
-	if (str == NULL)
-		return (0);
-	len = ft_strlen(str);
-	write(1, str, len);
-	free(infos);
-	free(str);
-	return (len);
+	return (ft_get_conversion(infos->conversion, ap, infos));
 }
 
 int			ft_printf(const char *s, ...)

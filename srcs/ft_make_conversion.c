@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 14:22:35 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 14:49:15 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char		*ft_convert_hex(long int nb, char *base)
 	return (str);
 }
 
-int		ft_print_str(char *str, t_infos *infos)
+int			ft_print_str(char *str, t_infos *infos)
 {
 	int		i;
 	int		len;
@@ -105,33 +105,52 @@ int		ft_print_str(char *str, t_infos *infos)
 	return (i + len);
 }
 
-char		*ft_get_params_str(char c, va_list ap)
+int			ft_print_params(char *str, t_infos *infos)
 {
-	char	*str;
-	char	*tmp;
+	int len;
 
-	str = NULL;
+	str = ft_make_precise(str, infos);
+	if (infos->width > ft_strlen(str))
+		str = ft_transform_str(str, infos);
+	if (str == NULL)
+		return (0);
+	len = ft_strlen(str);
+	write(1, str, len);
+	free(infos);
+	free(str);
+	return (len);
+}
+
+int			ft_print_pointer(unsigned long long nb, t_infos *infos)
+{
+	char *str;
+	char *tmp;
+
+	tmp = ft_convert_hex(nb, "0123456789abcdef");
+	str = ft_strjoin("0x", tmp);
+	free(tmp);
+	return (ft_print_params(str, infos));
+}
+
+int			ft_get_conversion(char c, va_list ap, t_infos *infos)
+{
 	if (c == 'c')
-	{
-		c = (va_arg(ap, int));
-		str = strndup(&c, 1);
-	}
+		return (ft_print_char(va_arg(ap, int), infos));
+	else if (c == 's')
+		return (ft_print_str(va_arg(ap, char *), infos));
 	else if (c == 'p')
-	{
-		tmp = ft_convert_hex(va_arg(ap, unsigned long long),
-				"0123456789abcdef");
-		str = ft_strjoin("0x", tmp);
-		free(tmp);
-	}
+		return (ft_print_pointer(va_arg(ap, unsigned long long), infos));
 	else if (c == 'd' || c == 'i')
-		str = ft_itoa(va_arg(ap, int));
+		return (ft_print_params(ft_itoa(va_arg(ap, int)), infos));
 	else if (c == 'u')
-		str = ft_utoa(va_arg(ap, unsigned int));
+		return (ft_print_params(ft_utoa(va_arg(ap, unsigned int)), infos));
 	else if (c == 'x')
-		str = ft_convert_hex(va_arg(ap, unsigned int), "0123456789abcdef");
+		return (ft_print_params(ft_convert_hex(va_arg(ap, unsigned int),
+						"0123456789abcdef"), infos));
 	else if (c == 'X')
-		str = ft_convert_hex(va_arg(ap, unsigned int), "0123456789ABCDEF");
+		return (ft_print_params(ft_convert_hex(va_arg(ap, unsigned int),
+						"0123456789ABCDEF"), infos));
 	else if (c == '%')
-		str = strdup("%");
-	return (str);
+		return (ft_print_char('%', infos));
+	return (0);
 }
