@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 10:53:20 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 11:21:56 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,24 @@ t_infos		*ft_infosnew(void)
 	return (new);
 }
 
+int			ft_print_char(char *str, t_infos *infos)
+{
+	int i;
+	char width;
+
+	width = ' ';
+	if (infos->zero)
+		width = '0';
+	i = -1;
+	if (infos->align)
+		write(1, str, 1);
+	while (++i < infos->width - 1)
+			write(1, &width, 1);
+	if (!infos->align)
+		write(1, str, 1);
+	return(i + 1);
+}
+
 int			ft_conversion(char *s, va_list ap)
 {
 	char	*str;
@@ -64,17 +82,15 @@ int			ft_conversion(char *s, va_list ap)
 	str = ft_get_params_str(infos->conversion, ap);
 	if (infos->conversion == 's')
 		return (ft_convert_str(va_arg(ap, char *), infos));
+	if (infos->conversion == 'c')
+		return (ft_print_char(str, infos));
 	str = ft_make_precise(str,infos);
-	///if (str == NULL)
-	//	return (0);
 	if (infos->width > ft_strlen(str))
 		str = ft_transform_str(str, infos);
 	if (str == NULL)
 		return (0);
 	len = ft_strlen(str);
 	write(1, str, len);
-	if (infos->conversion == 'c' && len == 0)
-		len = 1;
 	free(infos);
 	free(str);
 	return (len);
