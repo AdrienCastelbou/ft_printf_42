@@ -1,8 +1,8 @@
-SRCS		=	$(addprefix srcs/, ft_check_flags.c ft_make_conversion.c ft_printf.c)
+SRCS		=	$(addprefix srcs/, ft_check_flags.c ft_make_conversion.c ft_printf.c ft_print_elems.c)
 
 OBJS		=	$(SRCS:.c=.o)
 
-DUP_OBJS	=	ft_check_flags.o ft_make_conversion.o ft_printf.o
+DUP_OBJS	=	ft_check_flags.o ft_make_conversion.o ft_printf.o ft_print_elems.o
 
 LIBFT		=	./srcs/libft/libft.a
 
