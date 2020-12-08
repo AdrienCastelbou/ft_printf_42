@@ -6,14 +6,14 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 11:21:56 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 11:42:35 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "../includes/ft_printf.h"
 
-char	*ft_make_precise(char *str, t_infos *infos)
+char		*ft_make_precise(char *str, t_infos *infos)
 {
 	if (infos->conversion == 's' && infos->precision < ft_strlen(str))
 		str[infos->precision] = '\0';
@@ -61,10 +61,10 @@ int			ft_print_char(char *str, t_infos *infos)
 	if (infos->align)
 		write(1, str, 1);
 	while (++i < infos->width - 1)
-			write(1, &width, 1);
+		write(1, &width, 1);
 	if (!infos->align)
 		write(1, str, 1);
-	return(i + 1);
+	return (i + 1);
 }
 
 int			ft_conversion(char *s, va_list ap)
@@ -84,7 +84,7 @@ int			ft_conversion(char *s, va_list ap)
 		return (ft_convert_str(va_arg(ap, char *), infos));
 	if (infos->conversion == 'c')
 		return (ft_print_char(str, infos));
-	str = ft_make_precise(str,infos);
+	str = ft_make_precise(str, infos);
 	if (infos->width > ft_strlen(str))
 		str = ft_transform_str(str, infos);
 	if (str == NULL)

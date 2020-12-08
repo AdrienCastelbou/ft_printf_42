@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 10:28:45 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 11:41:38 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ char		*ft_convert_hex(long int nb, char *base)
 
 int		ft_convert_str(char *str, t_infos *infos)
 {
-	int i;
-	int len;
-	char c;
+	int		i;
+	int		len;
+	char	c;
 
 	c = ' ';
 	i = -1;
@@ -97,27 +97,28 @@ int		ft_convert_str(char *str, t_infos *infos)
 		write(1, str, len);
 		if (infos->width > len)
 			while (++i < infos->width - len)
-				write(1," ", 1);
+				write(1, " ", 1);
 	}
 	else
 	{
 		if (infos->width > len)
 			if (infos->zero)
 				c = '0';
-			while (++i < infos->width - len)
-				write(1, &c, 1);
+		while (++i < infos->width - len)
+			write(1, &c, 1);
 		write(1, str, len);
 	}
-	if ( i < 0)
+	if (i < 0)
 		i = 0;
 	return (i + len);
 }
 
 char		*ft_get_params_str(char c, va_list ap)
 {
-	char	*str = NULL;
+	char	*str;
 	char	*tmp;
 
+	str = NULL;
 	if (c == 'c')
 	{
 		c = (va_arg(ap, int));
@@ -130,8 +131,6 @@ char		*ft_get_params_str(char c, va_list ap)
 		str = ft_strjoin("0x", tmp);
 		free(tmp);
 	}
-	else if (c == 's')
-		return (NULL);
 	else if (c == 'd' || c == 'i')
 		str = ft_itoa(va_arg(ap, int));
 	else if (c == 'u')

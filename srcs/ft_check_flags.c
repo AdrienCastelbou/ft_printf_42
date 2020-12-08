@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:09:17 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 10:14:03 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 11:38:31 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ char		*ft_transform_neg(char *src, t_infos *infos)
 	dst[0] = '-';
 	free(src);
 	return (dst);
-
 }
 
 char		*ft_transform_str(char *src, t_infos *infos)
@@ -90,7 +89,7 @@ char		*ft_transform_str(char *src, t_infos *infos)
 	char	*dst;
 	int		start;
 
-	if (src[0] == '-' && ft_strlen(src) -1 < infos->width &&
+	if (src[0] == '-' && ft_strlen(src) - 1 < infos->width &&
 			infos->zero && !infos->align && infos->precision < 0)
 		return (ft_transform_neg(src, infos));
 	if (!(dst = (char *)malloc(sizeof(char) * (infos->width + 1))))
@@ -113,7 +112,7 @@ char		*ft_precise_nb(char *str, t_infos *infos)
 {
 	char *dst;
 
-	if (str[0] == '-' && ft_strlen(str) -1 < infos->precision)
+	if (str[0] == '-' && ft_strlen(str) - 1 < infos->precision)
 		return (ft_precise_neg(str, infos));
 	else if (str[0] == '0' && infos->precision == 0)
 	{
@@ -123,7 +122,7 @@ char		*ft_precise_nb(char *str, t_infos *infos)
 	else if (ft_strlen(str) < infos->precision)
 	{
 		if (!(dst = (char *)malloc(sizeof(char) * (infos->precision + 1))))
-				return (NULL);
+			return (NULL);
 		ft_memset(dst, '0', infos->precision);
 		ft_strcpy(dst + (infos->precision - ft_strlen(str)), str);
 		free(str);
