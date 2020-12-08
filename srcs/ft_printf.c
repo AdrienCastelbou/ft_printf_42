@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 11:42:35 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 14:23:01 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int			ft_conversion(char *s, va_list ap)
 		return (0);
 	str = ft_get_params_str(infos->conversion, ap);
 	if (infos->conversion == 's')
-		return (ft_convert_str(va_arg(ap, char *), infos));
+		return (ft_print_str(va_arg(ap, char *), infos));
 	if (infos->conversion == 'c')
 		return (ft_print_char(str, infos));
 	str = ft_make_precise(str, infos);

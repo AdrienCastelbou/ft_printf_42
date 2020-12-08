@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 11:41:38 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 14:22:35 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char		*ft_convert_hex(long int nb, char *base)
 	return (str);
 }
 
-int		ft_convert_str(char *str, t_infos *infos)
+int		ft_print_str(char *str, t_infos *infos)
 {
 	int		i;
 	int		len;
@@ -93,21 +93,13 @@ int		ft_convert_str(char *str, t_infos *infos)
 	if (infos->precision >= 0 && infos->precision < len)
 		len = infos->precision;
 	if (infos->align)
-	{
 		write(1, str, len);
-		if (infos->width > len)
-			while (++i < infos->width - len)
-				write(1, " ", 1);
-	}
-	else
-	{
-		if (infos->width > len)
-			if (infos->zero)
-				c = '0';
-		while (++i < infos->width - len)
-			write(1, &c, 1);
+	if (infos->zero && !infos->align)
+		c = '0';
+	while (++i < infos->width - len)
+		write(1, &c, 1);
+	if (!infos->align)
 		write(1, str, len);
-	}
 	if (i < 0)
 		i = 0;
 	return (i + len);

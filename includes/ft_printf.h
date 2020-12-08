@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:31:14 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/07 15:16:09 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 14:23:39 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ char			*ft_convert_hex(long int nb, char *base);
 char			*ft_utoa(long int n);
 char			*create_str(char *str, long int n, int len);
 int				get_size(long int n, int syst);
-int				ft_convert_str(char *str, t_infos *infos);
+int				ft_print_str(char *str, t_infos *infos);
 #endif
