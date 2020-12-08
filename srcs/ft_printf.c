@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 14:49:46 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 14:59:35 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,6 @@ t_infos		*ft_infosnew(void)
 	new->align = 0;
 	new->precision = -1;
 	return (new);
-}
-
-int			ft_print_char(char c, t_infos *infos)
-{
-	int		i;
-	char	width;
-
-	width = ' ';
-	if (infos->zero)
-		width = '0';
-	i = -1;
-	if (infos->align)
-		write(1, &c, 1);
-	while (++i < infos->width - 1)
-		write(1, &width, 1);
-	if (!infos->align)
-		write(1, &c, 1);
-	return (i + 1);
 }
 
 int			ft_conversion(char *s, va_list ap)

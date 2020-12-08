@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 14:49:15 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 15:00:04 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,59 +77,6 @@ char		*ft_convert_hex(long int nb, char *base)
 		nb /= 16;
 	}
 	return (str);
-}
-
-int			ft_print_str(char *str, t_infos *infos)
-{
-	int		i;
-	int		len;
-	char	c;
-
-	c = ' ';
-	i = -1;
-	if (str == NULL)
-		str = "(null)";
-	len = ft_strlen(str);
-	if (infos->precision >= 0 && infos->precision < len)
-		len = infos->precision;
-	if (infos->align)
-		write(1, str, len);
-	if (infos->zero && !infos->align)
-		c = '0';
-	while (++i < infos->width - len)
-		write(1, &c, 1);
-	if (!infos->align)
-		write(1, str, len);
-	if (i < 0)
-		i = 0;
-	return (i + len);
-}
-
-int			ft_print_params(char *str, t_infos *infos)
-{
-	int len;
-
-	str = ft_make_precise(str, infos);
-	if (infos->width > ft_strlen(str))
-		str = ft_transform_str(str, infos);
-	if (str == NULL)
-		return (0);
-	len = ft_strlen(str);
-	write(1, str, len);
-	free(infos);
-	free(str);
-	return (len);
-}
-
-int			ft_print_pointer(unsigned long long nb, t_infos *infos)
-{
-	char *str;
-	char *tmp;
-
-	tmp = ft_convert_hex(nb, "0123456789abcdef");
-	str = ft_strjoin("0x", tmp);
-	free(tmp);
-	return (ft_print_params(str, infos));
 }
 
 int			ft_get_conversion(char c, va_list ap, t_infos *infos)
