@@ -6,12 +6,20 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 17:40:14 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 18:03:38 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "../includes/ft_printf.h"
+
+void		ft_free_all(char *str, t_infos *infos)
+{
+	if (str)
+		free(str);
+	if (infos)
+		free(infos);
+}
 
 char		*ft_strcpy(char *dest, char *src)
 {

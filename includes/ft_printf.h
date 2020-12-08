@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:31:14 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 17:42:05 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/08 18:05:10 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ int				ft_print_char(char c, t_infos *infos);
 int				ft_print_pointer(unsigned long long nb, t_infos *infos);
 int				ft_print_params(char *str, t_infos *infos);
 int				ft_print_str(char *str, t_infos *infos);
+void			ft_free_all(char *str, t_infos *infos);
 #endif
