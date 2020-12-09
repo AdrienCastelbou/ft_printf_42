@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:31:14 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 18:05:10 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/09 17:48:28 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char			*ft_transform_str(char *src, t_infos *infos);
 char			*ft_precise_nb(char *str, t_infos *infos);
 char			*ft_precise_neg(char *src, t_infos *infos);
 int				ft_print_char(char c, t_infos *infos);
+char		*ft_get_pointer(unsigned long long nb, t_infos *infos, int *width);
 int				ft_print_pointer(unsigned long long nb, t_infos *infos);
 int				ft_print_params(char *str, t_infos *infos);
 int				ft_print_str(char *str, t_infos *infos);
