@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 14:56:19 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/09 16:30:39 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/09 17:23:25 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int			ft_print_pointer(unsigned long long nb, t_infos *infos)
 	char	*str;
 	int		i;
 	int		len;
+	int		width;
 
+	width = ' ';
 	i = -1;
 	if (nb == 0 && infos->precision == 0)
 		str = ft_strdup("");
@@ -44,16 +46,20 @@ int			ft_print_pointer(unsigned long long nb, t_infos *infos)
 		str = ft_convert_hex(nb, "0123456789abcdef");
 	str = ft_precise_nb(str, infos);
 	len = ft_strlen(str);
-	if (infos->align)
+	if (infos->zero && !infos->align && infos->precision <= -1)
+		width = '0';
+	if (infos->align || width == '0')
 	{
 		write(1, "0x", 2);
-		ft_putstr_fd(str, 1);
+		if (width != '0')
+			ft_putstr_fd(str, 1);
 	}
 	while (++i < infos->width - (len + 2))
-		ft_putchar_fd(' ', 1);
+		ft_putchar_fd(width, 1);
 	if (!infos->align)
 	{
-		write(1, "0x", 2);
+		if (width != '0')
+			write(1, "0x", 2);
 		ft_putstr_fd(str, 1);
 	}
 	ft_free_all(str, infos);
