@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 14:56:19 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 18:04:40 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/09 16:30:39 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			ft_print_char(char c, t_infos *infos)
 	char	width;
 
 	width = ' ';
-	if (infos->zero)
+	if (infos->zero && !infos->align)
 		width = '0';
 	i = -1;
 	if (infos->align)
