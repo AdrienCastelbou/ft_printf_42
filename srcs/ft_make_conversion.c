@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 15:12:44 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 15:00:04 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/10 10:57:40 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,7 @@ int			ft_get_conversion(char c, va_list ap, t_infos *infos)
 						"0123456789ABCDEF"), infos));
 	else if (c == '%')
 		return (ft_print_char('%', infos));
+	else if (c == 'n')
+		ft_set_print_value(va_arg(ap, int *), infos);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: acastelb <acastelb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 11:38:11 by acastelb          #+#    #+#             */
-/*   Updated: 2020/12/08 18:03:38 by acastelb         ###   ########.fr       */
+/*   Updated: 2020/12/10 10:26:15 by acastelb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char		*ft_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-t_infos		*ft_infosnew(void)
+t_infos		*ft_infosnew(int printed)
 {
 	t_infos *new;
 
@@ -45,14 +45,15 @@ t_infos		*ft_infosnew(void)
 	new->width = 0;
 	new->align = 0;
 	new->precision = -1;
+	new->printed = printed;
 	return (new);
 }
 
-int			ft_conversion(char *s, va_list ap)
+int			ft_conversion(char *s, va_list ap, int printed)
 {
 	t_infos *infos;
 
-	infos = ft_infosnew();
+	infos = ft_infosnew(printed);
 	ft_get_width_infos(s, &infos, ap);
 	ft_get_precision_infos(s, &infos, ap);
 	if (infos->conversion == 0)
@@ -74,8 +75,8 @@ int			ft_printf(const char *s, ...)
 		if (s[i] == '%')
 		{
 			++i;
-			count += ft_conversion((char *)&s[i], ap);
-			while (s[i] && !ft_strchr("cspdiuxX%", s[i]))
+			count += ft_conversion((char *)&s[i], ap, count);
+			while (s[i] && !ft_strchr("ncspdiuxX%", s[i]))
 				i++;
 		}
 		else
