@@ -28,6 +28,8 @@ $(NAME):	$(OBJS)
 
 all:		$(NAME)
 
+bonus:		$(NAME)
+
 clean:
 			$(MAKE) clean -C srcs/libft
 			rm -f $(OBJS) $(DUP_OBJS)
